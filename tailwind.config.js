@@ -9,7 +9,7 @@ module.exports = {
       colors:{
         awar:'#ffe44d',
         panyaung:'#f686bd',
-        kayan:'#736fbd'
+        kayan:'#a77afe'
       }
     },
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import PlayerCard from "../src/components/PlayerCard";
+import PlayerCardMobile from "../src/components/PlayerCardMobile";
 import Seo from "../src/components/Seo";
 import Slot from "../src/components/Slot";
 
@@ -17,10 +18,13 @@ export default function Game() {
   return (
     <>
       <Seo />
-      <main className="bg-kayan h-screen overflow-hidden w-screen flex justify-center items-center">
-        <div className=" flex w-[90%] justify-around items-center p-3 ">
+      <main className="bg-kayan  w-screen  min-h-screen  h-max flex justify-center items-center">
+        <div className=" flex w-[100%] md:w-[90%] justify-around items-center p-3 ">
+          <div className="lg:block hidden">
           <PlayerCard name="Player 1" score={20} />
-          <div className=" p-3 flex-col items-center h-screen">
+          </div>
+          {/* playground */}
+          <div className=" p-3 flex-col justify-center items-center h-screen">
             {/* menu bar */}
             <div className="flex justify-between items-center p-3">
               <Link href={"/"}>
@@ -35,9 +39,18 @@ export default function Game() {
               </Link>
             </div>
 
-            {/* game */}
-            <div className=" w-[700px] h-max bg-black pb-3  rounded-xl">
-            <div className=" bg-white relative w-[700px] justify-center p-3 pb-20 border-2 border-black rounded-xl flex flex-wrap">
+            
+            <div className="flex justify-between mt-3 mb-5 lg:hidden ">
+            
+            <PlayerCardMobile />
+            <PlayerCardMobile />
+
+         
+
+            </div>
+{/* game */}
+            <div className=" md:w-[700px]  w-[375px] h-max bg-black pb-3  mt-5 rounded-xl">
+            <div className=" bg-white relative md:w-[700px] w-[375px]  justify-center  pb-14 md:pb-20 border-2 border-black rounded-xl flex flex-wrap">
               {board.map((x, i) => {
                return x.map((y, j) => {
                   return (<Slot key={j.toString()} />)
@@ -45,9 +58,9 @@ export default function Game() {
               })}
 
 
-              <div className="flex justify-center absolute w-[155px] h-[155px] -bottom-[75px]  bg-black pb-3 rounded-lg clip-part">
-              <div className="clip-part bg-panyaung w-[155px] h-[155px] flex flex-col justify-center items-center  rounded-lg">
-                <p className="text-sm">PLAYER 1s TURN</p>
+              <div className="flex -bottom-[50px] justify-center absolute md:w-[155px] w-[100px] h-[100px] md:h-[155px] md:-bottom-[75px]  bg-black pb-3 rounded-lg clip-part">
+              <div className="clip-part bg-panyaung md:w-[155px] w-[100px]  flex flex-col justify-center items-center  rounded-lg">
+                <p className="md:text-sm text-xs md:mt-0 mt-10">PLAYER 1s TURN</p>
                 <h1 className="font-bold text-3xl text-white">30s</h1>
               </div>
                 
@@ -57,7 +70,9 @@ export default function Game() {
             </div>
    
           </div>
+          <div className="lg:block hidden">
           <PlayerCard name="Player 2" score={30} isCpu={true} />
+          </div>
         </div>
       </main>
     </>
