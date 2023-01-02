@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 import { AiOutlineSmile } from "react-icons/ai";
 import { RiGhostSmileLine } from "react-icons/ri";
@@ -8,6 +7,7 @@ interface CategoryPops {
   label: string;
   isRule?: boolean;
   isCpu?: boolean;
+  onClick?:()=>void
 }
 
 const Category = ({
@@ -15,10 +15,11 @@ const Category = ({
   label,
   isRule = false,
   isCpu = false,
+  onClick=()=>{}
 }: CategoryPops) => {
   return (
-    <Link href={"/game"}>
-      <div className="bg-black h-[65px] cursor-pointer my-5 rounded-xl relative">
+   
+      <div onClick={onClick} className="bg-black h-[65px] cursor-pointer my-5 rounded-xl relative" >
         <div
           className={`${background} w-full flex px-3 justify-between items-center border-4 border-black h-[65px] rounded-xl absolute bottom-2`}
         >
@@ -35,7 +36,7 @@ const Category = ({
           )}
         </div>
       </div>
-    </Link>
+   
   );
 };
 
