@@ -5,6 +5,11 @@ import PlayerCardMobile from "../src/components/PlayerCardMobile";
 import Seo from "../src/components/Seo";
 import Slot from "../src/components/Slot";
 
+import { useEffect } from "react";
+import { slotAnimation } from "../src/animations";
+
+
+
 export default function Game() {
   const board = [
     [" ", " ", " ", " ", " ", " ", " "],
@@ -14,6 +19,10 @@ export default function Game() {
     [" ", " ", " ", " ", " ", " ", " "],
     [" ", " ", " ", " ", " ", " ", " "],
   ];
+
+  useEffect(()=>{
+    slotAnimation()
+  },[])
 
   return (
     <>

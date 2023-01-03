@@ -10,6 +10,10 @@ module.exports = {
         awar:'#ffe44d',
         panyaung:'#f686bd',
         kayan:'#a77afe'
+      },
+      transitionProperty: {
+        'height': 'height',
+        'spacing': 'margin, padding',
       }
     },
 

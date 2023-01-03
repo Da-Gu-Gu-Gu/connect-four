@@ -1,12 +1,16 @@
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { homeAnimation } from '../src/animations'
 import Category from '../src/components/Category'
 import RuleModal from '../src/components/RuleModal'
 import Seo from '../src/components/Seo'
 
 
+
 export default function Home() {
+
+  useEffect(()=>homeAnimation(),[])
 
   const [ruleOpen,setRuleOpen]=useState<boolean>(false)
 
@@ -14,7 +18,7 @@ export default function Home() {
     setRuleOpen((prev)=>!prev)
   }
 
-  console.log(ruleOpen)
+ 
 
   return (
     <>
