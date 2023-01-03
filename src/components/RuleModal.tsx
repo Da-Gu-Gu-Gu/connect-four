@@ -1,51 +1,16 @@
 import React, { useEffect } from 'react'
 import {ImCross} from 'react-icons/im'
-import gsap from 'gsap'
+import { ruleOpenAnimation } from '../animations'
 
 interface Props{
     onClick:()=>void,
     open:boolean,
 }
 
-const ruleOpenAnimation=()=>{
-  gsap.fromTo('.rules-text ',{
-    yPercent:-40,
-    xPercent:0
-  },{
-    xPercent:0,
-    yPercent:0,
-    ease:'power2.in',
-    duration:0.3
-
-  })
-
-  gsap.fromTo('.cross ',{
-    rotate:0
-  },{
-    rotate:360,
-    ease:'power2.in',
-    duration:1,
-    delay:0.2,
-  })
-}
 
 
-// const ruleCloseAnimation=()=>{
-//   gsap.fromTo('.rules-model',{
-//     height:'100%',
-//     width:'100%',
-//     overflow:'visible',
-//     // padding:'12px',
-//     borderWidth:'2px',
-//     // paddingBottom:'49px',
-//   },{
-//     height:0,
-//     width:0,
-//     // padding:0,
-//     borderWidth:0,
-//     overflow:'hidden'
-//   })
-// }
+
+
 
 
 const RuleModal = ({onClick,open}:Props) => {

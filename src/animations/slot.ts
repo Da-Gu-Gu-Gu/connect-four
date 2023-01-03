@@ -10,6 +10,7 @@ const slotAnimation=()=>{ ///intro
       opacity:1,
       duration:0.5,
       stagger:0.05,
+      delay:1,
       ease: "power2.in",
     })
   }
