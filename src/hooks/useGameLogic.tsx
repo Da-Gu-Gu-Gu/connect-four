@@ -16,7 +16,7 @@ const useGameLogic = () => {
 
     const [turn,setTurn]=useState('p1')
 
-    function getConnectFourScore(board,scoreForPlayer: Dispatch<SetStateAction<number>>) {
+    const getConnectFourScore=(board:string[][],scoreForPlayer: Dispatch<SetStateAction<number>>)=>{
   
         let tempScore=0
         // Check for a horizontal win

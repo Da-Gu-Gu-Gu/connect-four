@@ -13,7 +13,7 @@ import {
 } from "../src/animations";
 import playerAnimation from "../src/animations/player";
 import useGameLogic from "../src/hooks/useGameLogic";
-
+import gsap from "gsap";
 
 const board = [
   [" ", " ", " ", " ", " ", " ", " "],
@@ -25,12 +25,10 @@ const board = [
 ];
 
 export default function Game() {
-
-
-  const [p1Score,setP1Score]=useState(0)
-  const [p2Score,setP2Score]=useState(0)
-  const {turn,setTurn,getConnectFourScore} =useGameLogic()
-  // console.log(board[2].lastIndexOf(' ')) to push the last index of row 
+  const [p1Score, setP1Score] = useState(0);
+  const [p2Score, setP2Score] = useState(0);
+  const { turn, setTurn, getConnectFourScore } = useGameLogic();
+  // console.log(board[2].lastIndexOf(' ')) to push the last index of row
   // for check colums to push last index we need to loop and check 6 row is available
 
   useEffect(() => {
@@ -40,23 +38,46 @@ export default function Game() {
     timerAnimation();
   }, []);
 
+  // for animate we need plus ++ in row and specific columns and change bg color 
 
-  const boardConfig=(col:number)=>{
-    for(let i=5;i>=0;i--){
-      if(board[i][col]===" "){
-        board[i][col]=turn
-        const scoreCheck=turn==="p1"?setP1Score:setP2Score
-        getConnectFourScore(board,scoreCheck)
-        const turnCheck=turn==="p1"?'p2':'p1'
-        setTurn(turnCheck)
-        console.log(board)
+  const discAnimation=(row:number,col:number)=>{
+
+    for(let x=0;x<row;x++){
+      let dynamicClass=`.disc-${row}-${col}`
+      gsap.fromTo(dynamicClass,{
+        yPercent:-200,
+        opacity:0,
+        backgroundColor:'#a77afe'
+      },{
+        yPercent:0,
+        opacity:1,
+        backgroundColor:'#ffe44d',
+        duration:0.5,
+        ease: "power2.in",
+      })
+    }
+
+
+  }
+
+
+  const boardConfig = (col: number) => {
+    for (let i = 5; i >= 0; i--) {
+      if (board[i][col] === " ") {
+        board[i][col] = turn;
+        const scoreCheck = turn === "p1" ? setP1Score : setP2Score;
+        getConnectFourScore(board, scoreCheck);
+        const turnCheck = turn === "p1" ? "p2" : "p1";
+        discAnimation(i,col)
+        setTurn(turnCheck);
+        console.log(board);
         break;
       }
     }
-  }
+  };
 
-console.log('p1',p1Score)
-console.log('p2',p2Score)
+  console.log("p1", p1Score);
+  console.log("p2", p2Score);
 
   return (
     <>
@@ -83,7 +104,7 @@ console.log('p2',p2Score)
               </Link>
               <Link href={"/"}>
                 <div className="cursor-pointer menu-btn flex bg-violet-800 py-2 px-5 rounded-lg text-white">
-                  {["R", "e", "s", "t", "a", "r", "t"].map((x,i) => {
+                  {["R", "e", "s", "t", "a", "r", "t"].map((x, i) => {
                     return (
                       <p key={i} className="menu">
                         {x}
@@ -95,7 +116,7 @@ console.log('p2',p2Score)
             </div>
 
             <div className="flex justify-between mt-3 mb-5 lg:hidden ">
-              <PlayerCardMobile score={12}/>
+              <PlayerCardMobile score={12} />
               <PlayerCardMobileRight score={22} />
             </div>
             {/* game */}
@@ -104,8 +125,8 @@ console.log('p2',p2Score)
                 {[0, 1, 2, 3, 4, 5, 6].map((col) => {
                   return (
                     <div
-                    onClick={()=>boardConfig(col)}  
-                    key={col}
+                      onClick={() => boardConfig(col)}
+                      key={col}
                       className="md:w-[70px] opacity-0 hover:opacity-100 cursor-pointer transition-all tab md:h-[70px] p-[2px] pt-[4px] w-[35px] h-[35px] mx-[7px]  md:m-3  bg-black flex justify-center "
                     >
                       <div className="md:w-[70px] tab md:h-[70px]  w-[35px] h-[35px] tab bg-panyaung "></div>
@@ -117,7 +138,7 @@ console.log('p2',p2Score)
                 <div className=" bg-white relative md:w-[700px] w-[375px]  justify-center  pb-14 md:pb-20 border-2 border-black rounded-xl flex flex-wrap">
                   {board.map((x, i) => {
                     return x.map((y, j) => {
-                      return <Slot key={j.toString()} />;
+                      return <Slot row={i} col={j}  key={j.toString()} />;
                     });
                   })}
 
