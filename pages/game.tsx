@@ -5,23 +5,33 @@ import PlayerCardMobile, {
 } from "../src/components/PlayerCardMobile";
 import Seo from "../src/components/Seo";
 import Slot from "../src/components/Slot";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   menuAnimation,
   slotAnimation,
   timerAnimation,
 } from "../src/animations";
 import playerAnimation from "../src/animations/player";
+import useGameLogic from "../src/hooks/useGameLogic";
+
+
+const board = [
+  [" ", " ", " ", " ", " ", " ", " "],
+  [" ", " ", " ", " ", " ", " ", " "],
+  [" ", " ", " ", " ", " ", " ", " "],
+  [" ", " ", " ", " ", " ", " ", " "],
+  [" ", " ", " ", " ", " ", " ", " "],
+  [" ", " ", " ", " ", " ", " ", " "],
+];
 
 export default function Game() {
-  const board = [
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
-    [" ", " ", " ", " ", " ", " ", " "],
-  ];
+
+
+  const [p1Score,setP1Score]=useState(0)
+  const [p2Score,setP2Score]=useState(0)
+  const {turn,setTurn,getConnectFourScore} =useGameLogic()
+  // console.log(board[2].lastIndexOf(' ')) to push the last index of row 
+  // for check colums to push last index we need to loop and check 6 row is available
 
   useEffect(() => {
     menuAnimation();
@@ -29,6 +39,24 @@ export default function Game() {
     slotAnimation();
     timerAnimation();
   }, []);
+
+
+  const boardConfig=(col:number)=>{
+    for(let i=5;i>=0;i--){
+      if(board[i][col]===" "){
+        board[i][col]=turn
+        const scoreCheck=turn==="p1"?setP1Score:setP2Score
+        getConnectFourScore(board,scoreCheck)
+        const turnCheck=turn==="p1"?'p2':'p1'
+        setTurn(turnCheck)
+        console.log(board)
+        break;
+      }
+    }
+  }
+
+console.log('p1',p1Score)
+console.log('p2',p2Score)
 
   return (
     <>
@@ -55,9 +83,9 @@ export default function Game() {
               </Link>
               <Link href={"/"}>
                 <div className="cursor-pointer menu-btn flex bg-violet-800 py-2 px-5 rounded-lg text-white">
-                  {["R", "e", "s", "t", "a", "r", "t"].map((x) => {
+                  {["R", "e", "s", "t", "a", "r", "t"].map((x,i) => {
                     return (
-                      <p key={x} className="menu">
+                      <p key={i} className="menu">
                         {x}
                       </p>
                     );
@@ -73,10 +101,11 @@ export default function Game() {
             {/* game */}
             <div className=" md:w-[700px]  w-[375px] h-max pb-3  mt-5 ">
               <div className="flex justify-center  bg-kayan   ">
-                {[0, 1, 2, 3, 4, 5, 6].map((tab) => {
+                {[0, 1, 2, 3, 4, 5, 6].map((col) => {
                   return (
                     <div
-                      key={tab}
+                    onClick={()=>boardConfig(col)}  
+                    key={col}
                       className="md:w-[70px] opacity-0 hover:opacity-100 cursor-pointer transition-all tab md:h-[70px] p-[2px] pt-[4px] w-[35px] h-[35px] mx-[7px]  md:m-3  bg-black flex justify-center "
                     >
                       <div className="md:w-[70px] tab md:h-[70px]  w-[35px] h-[35px] tab bg-panyaung "></div>
