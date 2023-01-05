@@ -1,5 +1,5 @@
 import homeAnimation from "./category";
-import slotAnimation from "./slot";
+import slotAnimation,{discAnimation} from "./slot";
 import ruleOpenAnimation from "./rules";
 import menuAnimation from "./menu";
 import timerAnimation from "./timer";
@@ -9,5 +9,6 @@ export {
     slotAnimation,
     ruleOpenAnimation,
     menuAnimation,
-    timerAnimation
+    timerAnimation,
+    discAnimation
 }

@@ -7,13 +7,15 @@ import Seo from "../src/components/Seo";
 import Slot from "../src/components/Slot";
 import { useEffect, useState } from "react";
 import {
+  discAnimation,
   menuAnimation,
   slotAnimation,
   timerAnimation,
 } from "../src/animations";
 import playerAnimation from "../src/animations/player";
 import useGameLogic from "../src/hooks/useGameLogic";
-import gsap from "gsap";
+import Timer from "../src/components/Timer";
+
 
 const board = [
   [" ", " ", " ", " ", " ", " ", " "],
@@ -27,52 +29,19 @@ const board = [
 export default function Game() {
   const [p1Score, setP1Score] = useState(0);
   const [p2Score, setP2Score] = useState(0);
-  const { turn, setTurn, getConnectFourScore } = useGameLogic();
-  // console.log(board[2].lastIndexOf(' ')) to push the last index of row
-  // for check colums to push last index we need to loop and check 6 row is available
+  const [timer,setTimer]=useState(30)
 
+
+  const { turn, setTurn, getConnectFourScore } = useGameLogic();
+
+  // for the next step consider for complete disc not to recount score
+  
   useEffect(() => {
     menuAnimation();
     playerAnimation();
     slotAnimation();
     timerAnimation();
   }, []);
-
-  // for animate we need plus ++ in row and specific columns and change bg color 
-
-  const tl=gsap.timeline({defaults:{duration:0.2}})
-
-  const discAnimation=(row:number,col:number,turn:string)=>{
-
-    const alternateColor=turn==="p1"?'#f686bd':'#ffe44d'
-    const finalClass=`.disc-${row}-${col}`
-    for(let x=0;x<=row;x++){
-      let dynamicClass=`.disc-${x}-${col}` //need to change row to x and return back to x normal background
-      console.log(dynamicClass)
-      tl.from(dynamicClass,{
-        yPercent:-200,
-        backgroundColor:alternateColor,
-
-      })
-      tl.to(dynamicClass,{
-        backgroundColor:alternateColor,
-    
-      },"<")
-      tl.to(dynamicClass,{
-        yPercent:0,
-        // backgroundColor:alternateColor,
-        backgroundColor:'#a77afe',
-      },">")
- 
-      tl.to(finalClass,{
-        backgroundColor:alternateColor,
-      },">")
- 
-    }
-
-
-  }
-
 
   const boardConfig = (col: number) => {
     for (let i = 5; i >= 0; i--) {
@@ -81,7 +50,7 @@ export default function Game() {
         const scoreCheck = turn === "p1" ? setP1Score : setP2Score;
         getConnectFourScore(board, scoreCheck);
         const turnCheck = turn === "p1" ? "p2" : "p1";
-        discAnimation(i,col,turn)
+        discAnimation(i, col, turn);
         setTurn(turnCheck);
         console.log(board);
         break;
@@ -89,8 +58,11 @@ export default function Game() {
     }
   };
 
-  console.log("p1", p1Score);
-  console.log("p2", p2Score);
+  useEffect(()=>{
+    setTimer(30)
+  },[turn])
+
+
 
   return (
     <>
@@ -151,18 +123,12 @@ export default function Game() {
                 <div className=" bg-white relative md:w-[700px] w-[375px]  justify-center  pb-14 md:pb-20 border-2 border-black rounded-xl flex flex-wrap">
                   {board.map((x, i) => {
                     return x.map((y, j) => {
-                      return <Slot row={i} col={j}  key={j.toString()} />;
+                      return <Slot row={i} col={j} key={j.toString()} />;
                     });
                   })}
 
-                  <div className="flex timer -bottom-[50px] justify-center absolute md:w-[155px] w-[100px] h-[100px] md:h-[155px] md:-bottom-[75px]  bg-black pb-3 rounded-lg clip-part">
-                    <div className="clip-part bg-panyaung md:w-[155px] w-[100px]  flex flex-col justify-center items-center  rounded-lg">
-                      <p className="md:text-sm text-xs md:mt-0 mt-10">
-                        PLAYER 1s TURN
-                      </p>
-                      <h1 className="font-bold text-3xl text-white">30s</h1>
-                    </div>
-                  </div>
+                  <Timer turn={turn} timer={timer} setTimer={setTimer} setTurn={setTurn}/>
+
                 </div>
               </div>
             </div>

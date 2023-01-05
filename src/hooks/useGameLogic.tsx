@@ -14,7 +14,7 @@ const useGameLogic = () => {
     const ROWS = 6;
     const COLUMNS = 7;
 
-    const [turn,setTurn]=useState('p1')
+    const [turn,setTurn]=useState<'p1'|'p2'>('p1')
 
     const getConnectFourScore=(board:string[][],scoreForPlayer: Dispatch<SetStateAction<number>>)=>{
   
