@@ -40,10 +40,13 @@ export default function Game() {
 
   // for animate we need plus ++ in row and specific columns and change bg color 
 
-  const discAnimation=(row:number,col:number)=>{
+  const discAnimation=(row:number,col:number,turn:string)=>{
 
-    for(let x=0;x<row;x++){
-      let dynamicClass=`.disc-${row}-${col}`
+    const alternateColor=turn==="p1"?'#f686bd':'#ffe44d'
+
+    for(let x=0;x<=row;x++){
+      let dynamicClass=`.disc-${row}-${col}` //need to change row to x and return back to x normal background
+      console.log(dynamicClass)
       gsap.fromTo(dynamicClass,{
         yPercent:-200,
         opacity:0,
@@ -51,7 +54,7 @@ export default function Game() {
       },{
         yPercent:0,
         opacity:1,
-        backgroundColor:'#ffe44d',
+        backgroundColor:alternateColor,
         duration:0.5,
         ease: "power2.in",
       })
@@ -68,7 +71,7 @@ export default function Game() {
         const scoreCheck = turn === "p1" ? setP1Score : setP2Score;
         getConnectFourScore(board, scoreCheck);
         const turnCheck = turn === "p1" ? "p2" : "p1";
-        discAnimation(i,col)
+        discAnimation(i,col,turn)
         setTurn(turnCheck);
         console.log(board);
         break;
@@ -85,7 +88,7 @@ export default function Game() {
       <main className="bg-kayan  w-screen  min-h-screen  h-max flex justify-center items-center">
         <div className=" flex w-[100%] md:w-[90%] justify-around items-center p-3 ">
           <div className="lg:block hidden">
-            <PlayerCard name="Player 1" score={20} />
+            <PlayerCard name="Player 1" score={p1Score} />
           </div>
           {/* playground */}
           <div className=" p-3 flex-col justify-center items-center h-screen">
@@ -116,8 +119,8 @@ export default function Game() {
             </div>
 
             <div className="flex justify-between mt-3 mb-5 lg:hidden ">
-              <PlayerCardMobile score={12} />
-              <PlayerCardMobileRight score={22} />
+              <PlayerCardMobile score={p1Score} />
+              <PlayerCardMobileRight score={p2Score} />
             </div>
             {/* game */}
             <div className=" md:w-[700px]  w-[375px] h-max pb-3  mt-5 ">
@@ -155,7 +158,7 @@ export default function Game() {
             </div>
           </div>
           <div className="lg:block hidden">
-            <PlayerCard name="Player 2" score={30} isCpu={true} />
+            <PlayerCard name="Player 2" score={p2Score} isCpu={true} />
           </div>
         </div>
       </main>
