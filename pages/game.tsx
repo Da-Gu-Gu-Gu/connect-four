@@ -40,24 +40,34 @@ export default function Game() {
 
   // for animate we need plus ++ in row and specific columns and change bg color 
 
+  const tl=gsap.timeline({defaults:{duration:0.2}})
+
   const discAnimation=(row:number,col:number,turn:string)=>{
 
     const alternateColor=turn==="p1"?'#f686bd':'#ffe44d'
-
+    const finalClass=`.disc-${row}-${col}`
     for(let x=0;x<=row;x++){
-      let dynamicClass=`.disc-${row}-${col}` //need to change row to x and return back to x normal background
+      let dynamicClass=`.disc-${x}-${col}` //need to change row to x and return back to x normal background
       console.log(dynamicClass)
-      gsap.fromTo(dynamicClass,{
+      tl.from(dynamicClass,{
         yPercent:-200,
-        opacity:0,
-        backgroundColor:'#a77afe'
-      },{
-        yPercent:0,
-        opacity:1,
         backgroundColor:alternateColor,
-        duration:0.5,
-        ease: "power2.in",
+
       })
+      tl.to(dynamicClass,{
+        backgroundColor:alternateColor,
+    
+      },"<")
+      tl.to(dynamicClass,{
+        yPercent:0,
+        // backgroundColor:alternateColor,
+        backgroundColor:'#a77afe',
+      },">")
+ 
+      tl.to(finalClass,{
+        backgroundColor:alternateColor,
+      },">")
+ 
     }
 
 
