@@ -8,11 +8,6 @@ interface Props{
 }
 
 
-
-
-
-
-
 const RuleModal = ({onClick,open}:Props) => {
 
 

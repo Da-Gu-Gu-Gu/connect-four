@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
+import gsap from 'gsap'
 
 // const board = [
 //   [" ", " ", " ", " ", " ", " ", " "],
@@ -28,7 +29,10 @@ const useGameLogic = () => {
                 board[row][col] === board[row][col + 2] &&
                 board[row][col] === board[row][col + 3]) {
                     tempScore+=10
-                    // here need to add completed disc animation
+                    gsap.to(`.star-${row}-${col}`,{
+                      opacity:1,
+                    })
+           
                     // break; // if break , this will not count completed score anymore so this is optional
             }
           }
