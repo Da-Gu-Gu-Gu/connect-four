@@ -16,14 +16,13 @@ const slotAnimation=()=>{ ///intro
   }
 
 
-  const tl = gsap.timeline({ defaults: { duration: 0.2 } });
+  const tl = gsap.timeline({ defaults: { duration: 0.2,ease:'sine.out' } });
 
   export const discAnimation = (row: number, col: number, turn: string) => {
     const alternateColor = turn === "p1" ? "#f686bd" : "#ffe44d";
     const finalClass = `.disc-${row}-${col}`;
     for (let x = 0; x <= row; x++) {
       let dynamicClass = `.disc-${x}-${col}`;
-      console.log(dynamicClass);
       tl.from(dynamicClass, {
         yPercent: -200,
         backgroundColor: alternateColor,
@@ -31,6 +30,8 @@ const slotAnimation=()=>{ ///intro
       tl.to(
         dynamicClass,
         {
+          opacity:1,
+          yPercent:0,
           backgroundColor: alternateColor,
         },
         "<"
@@ -38,21 +39,42 @@ const slotAnimation=()=>{ ///intro
       tl.to(
         dynamicClass,
         {
-          yPercent: 0,
-          // backgroundColor:alternateColor,
-          backgroundColor: "#a77afe",
+          //  opacity:0,
+          yPercent: 100,
+         
         },
         ">"
       );
 
       tl.to(
-        finalClass,
+        dynamicClass,
         {
-          backgroundColor: alternateColor,
+           opacity:0,
         },
         ">"
       );
+
+      tl.to(
+        dynamicClass,
+        {
+          //  opacity:0,
+          yPercent: -200,
+         
+        },
+        ">"
+      );
+
     }
+    tl.to(
+      finalClass,
+      {
+        opacity:1,
+        yPercent:0,
+        backgroundColor: alternateColor,
+
+      },
+      ">"
+    );
   };
 
   export default slotAnimation
