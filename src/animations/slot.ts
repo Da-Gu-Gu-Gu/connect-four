@@ -15,6 +15,11 @@ const slotAnimation=()=>{ ///intro
     })
   }
 
+export const completedAnimation=(row:number,col:number)=>{
+    gsap.to(`.star-${row}-${col}`,{
+      opacity:1,
+    })
+  }
 
   const tl = gsap.timeline({ defaults: { duration: 0.1,ease:'sine.out' } });
 

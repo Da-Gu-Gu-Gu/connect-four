@@ -12,7 +12,7 @@ const Slot = ({row,col}:Props) => {
     </div>
     <div className={`absolute bottom-0 flex justify-center items-center justify-self-center left-1/2 -translate-x-1/2 opacity-0 disc-${row}-${col} md:w-[65px]  md:h-[65px]  w-[30px] h-[30px] rounded-full
      bg-panyaung   `}>
-      <MdOutlineStars className={`star-${row}-${col} text-black opacity-0`} size={30} />
+      <MdOutlineStars className={`star-${row}-${col} w-[20px]  h-[20px] md:w-[30px] md:h-[30px]  text-black opacity-0`}  />
     </div>
 </div>
   )
