@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import gsap from "gsap";
 import { completedAnimation } from "../animations";
 
 // const board = [

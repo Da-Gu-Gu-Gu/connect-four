@@ -16,7 +16,7 @@ import playerAnimation from "../src/animations/player";
 import useGameLogic from "../src/hooks/useGameLogic";
 import Timer from "../src/components/Timer";
 import ResultBox from "../src/components/ResultBox";
-
+import { useRouter } from "next/router";
 
 const board = [
   [" ", " ", " ", " ", " ", " ", " "],
@@ -30,13 +30,14 @@ const board = [
 export default function Game() {
   const [p1Score, setP1Score] = useState(0);
   const [p2Score, setP2Score] = useState(0);
-  const [timer,setTimer]=useState(30)
-
+  const [timer, setTimer] = useState(30);
+  const router = useRouter();
+  const { isCpu } = router.query;
+  console.log(isCpu);
+  console.log(typeof isCpu);
 
   const { turn, setTurn, getConnectFourScore } = useGameLogic();
 
-  // for the next step consider for complete disc not to recount score
-  
   useEffect(() => {
     menuAnimation();
     playerAnimation();
@@ -49,13 +50,13 @@ export default function Game() {
       if (board[i][col] === " ") {
         board[i][col] = turn;
         const scoreCheck = turn === "p1" ? setP1Score : setP2Score;
-       
+
         const turnCheck = turn === "p1" ? "p2" : "p1";
         discAnimation(i, col, turn);
-        setTimeout(()=>{
+        setTimeout(() => {
           getConnectFourScore(board, scoreCheck);
-        },1000)
-  
+        }, 1000);
+
         setTurn(turnCheck);
         console.log(board);
         break;
@@ -63,16 +64,9 @@ export default function Game() {
     }
   };
 
-  useEffect(()=>{
-    // const delayAnimation=setTimeout(()=>{
-      setTimer(30)
-    // },6000)
-    // return () => {
-    //   clearTimeout(delayAnimation);
-    // };
-  },[turn])
-
-
+  useEffect(() => {
+    setTimer(30);
+  }, [turn]);
 
   return (
     <>
@@ -112,7 +106,11 @@ export default function Game() {
 
             <div className="flex justify-between mt-3 mb-5 lg:hidden ">
               <PlayerCardMobile score={p1Score} />
-              <PlayerCardMobileRight score={p2Score} />
+              <PlayerCardMobileRight
+                isCpu={!!isCpu}
+                name={!!isCpu ? "Computer" : "PLAYER 2"}
+                score={p2Score}
+              />
             </div>
             {/* game */}
             <div className=" md:w-[700px]  w-[375px] h-max pb-3  mt-5 ">
@@ -140,13 +138,16 @@ export default function Game() {
                   <ResultBox />
 
                   {/* <Timer turn={turn} timer={timer} setTimer={setTimer} setTurn={setTurn}/> */}
-
                 </div>
               </div>
             </div>
           </div>
           <div className="lg:block hidden">
-            <PlayerCard name="Player 2" score={p2Score} isCpu={true} />
+            <PlayerCard
+              name={!!isCpu ? "Computer" : "Player 2"}
+              score={p2Score}
+              isCpu={!!isCpu}
+            />
           </div>
         </div>
       </main>
