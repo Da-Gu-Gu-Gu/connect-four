@@ -15,6 +15,7 @@ import {
 import playerAnimation from "../src/animations/player";
 import useGameLogic from "../src/hooks/useGameLogic";
 import Timer from "../src/components/Timer";
+import ResultBox from "../src/components/ResultBox";
 
 
 const board = [
@@ -48,9 +49,13 @@ export default function Game() {
       if (board[i][col] === " ") {
         board[i][col] = turn;
         const scoreCheck = turn === "p1" ? setP1Score : setP2Score;
-        getConnectFourScore(board, scoreCheck);
+       
         const turnCheck = turn === "p1" ? "p2" : "p1";
         discAnimation(i, col, turn);
+        setTimeout(()=>{
+          getConnectFourScore(board, scoreCheck);
+        },1000)
+  
         setTurn(turnCheck);
         console.log(board);
         break;
@@ -59,7 +64,12 @@ export default function Game() {
   };
 
   useEffect(()=>{
-    setTimer(30)
+    // const delayAnimation=setTimeout(()=>{
+      setTimer(30)
+    // },6000)
+    // return () => {
+    //   clearTimeout(delayAnimation);
+    // };
   },[turn])
 
 
@@ -127,7 +137,9 @@ export default function Game() {
                     });
                   })}
 
-                  <Timer turn={turn} timer={timer} setTimer={setTimer} setTurn={setTurn}/>
+                  <ResultBox />
+
+                  {/* <Timer turn={turn} timer={timer} setTimer={setTimer} setTurn={setTurn}/> */}
 
                 </div>
               </div>

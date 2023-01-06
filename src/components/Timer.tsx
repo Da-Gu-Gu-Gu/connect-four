@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react'
 
 interface Props{
-    turn:"p1" | "p2",
+    turn:"p1" | "p2" | 'cpu',
     timer:number,
     setTimer:Dispatch<SetStateAction<number>>,
-    setTurn:Dispatch<SetStateAction<"p1"|"p2">>
+    setTurn:Dispatch<SetStateAction<"p1"|"p2" | "cpu">>
 }
 
 const Timer = ({turn,timer,setTimer,setTurn}:Props) => {
@@ -20,7 +20,7 @@ const Timer = ({turn,timer,setTimer,setTurn}:Props) => {
             setTurn(turnCheck)
           clearInterval(myCountdown);
         }
-      }, 1000);
+      }, 2000);
   
   
       return () => {
@@ -31,11 +31,11 @@ const Timer = ({turn,timer,setTimer,setTurn}:Props) => {
     const alternateColor = turn === "p1" ? "bg-panyaung" : "bg-awar";
 
   return (
-    <div className="flex timer -bottom-[50px] justify-center absolute md:w-[155px] w-[100px] h-[100px] md:h-[155px] md:-bottom-[75px]  bg-black pb-3 rounded-lg clip-part">
-    <div className={`clip-part ${alternateColor}  md:w-[155px] w-[100px]  flex flex-col justify-center items-center  rounded-lg`}>
-      <p className="md:text-sm text-xs md:mt-0 mt-10">
+    <div className="flex timer -bottom-[50px] justify-center absolute md:w-[155px] w-[130px] h-[110px] md:h-[155px] md:-bottom-[75px]  bg-black pb-3 rounded-lg clip-part">
+    <div className={`clip-part ${alternateColor}  md:w-[155px] md:h-[150px] w-[130px] h-[105px] flex flex-col justify-center items-center  rounded-lg`}>
+      <p className="md:text-sm text-sm  mt-10">
       {/* here need to trigger for  cpu */}
-       {turn==="p1"?'PLAYER 1s TURN':'PLAYER 2s Turn'}  
+       {turn==="p1"?"PLAYER 1's TURN":"PLAYER 2's Turn"}  
       </p>
       <h1 className="font-bold text-3xl text-white">{timer} s</h1>
     </div>

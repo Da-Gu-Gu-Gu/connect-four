@@ -16,7 +16,7 @@ const slotAnimation=()=>{ ///intro
   }
 
 
-  const tl = gsap.timeline({ defaults: { duration: 0.2,ease:'sine.out' } });
+  const tl = gsap.timeline({ defaults: { duration: 0.1,ease:'sine.out' } });
 
   export const discAnimation = (row: number, col: number, turn: string) => {
     const alternateColor = turn === "p1" ? "#f686bd" : "#ffe44d";

@@ -14,7 +14,7 @@ const useGameLogic = () => {
     const ROWS = 6;
     const COLUMNS = 7;
 
-    const [turn,setTurn]=useState<'p1'|'p2'>('p1')
+    const [turn,setTurn]=useState<'p1'|'p2'|'cpu'>('p1')
 
     const getConnectFourScore=(board:string[][],scoreForPlayer: Dispatch<SetStateAction<number>>)=>{
   
@@ -28,7 +28,8 @@ const useGameLogic = () => {
                 board[row][col] === board[row][col + 2] &&
                 board[row][col] === board[row][col + 3]) {
                     tempScore+=10
-                    break;
+                    // here need to add completed disc animation
+                    // break; // if break , this will not count completed score anymore so this is optional
             }
           }
         }
