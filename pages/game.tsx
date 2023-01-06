@@ -33,8 +33,7 @@ export default function Game() {
   const [timer, setTimer] = useState(30);
   const router = useRouter();
   const { isCpu } = router.query;
-  console.log(isCpu);
-  console.log(typeof isCpu);
+
 
   const { turn, setTurn, getConnectFourScore } = useGameLogic();
 
@@ -44,6 +43,8 @@ export default function Game() {
     slotAnimation();
     timerAnimation();
   }, []);
+
+// we need to implement to computer play random and check whose turn it is?
 
   const boardConfig = (col: number) => {
     for (let i = 5; i >= 0; i--) {
