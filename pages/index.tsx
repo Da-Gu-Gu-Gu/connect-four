@@ -28,10 +28,10 @@ export default function Home() {
         <div className='bg-kayan h-screen w-screen flex justify-center items-center'>
         <div className='md:w-[500px] w-[90%] p-3'>
       
-        <Link href={"/game"}>
+        <Link href={"/game?opponent=cpu"}>
         <Category background='bg-panyaung' label='PLAYER VS CPU' isCpu={true}/>
         </Link>
-        <Link href={"/game"}>
+        <Link href={"/game/?opponent=p2"}>
         <Category background='bg-awar' label='PLAYER VS PLAYER'/>
         </Link>
         <Category onClick={ruleHandler} background='bg-white' label='GAME RULES' isRule={true}/>

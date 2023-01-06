@@ -21,7 +21,7 @@ const slotAnimation=()=>{ ///intro
   export const discAnimation = (row: number, col: number, turn: string) => {
     const alternateColor = turn === "p1" ? "#f686bd" : "#ffe44d";
     const finalClass = `.disc-${row}-${col}`;
-    for (let x = 0; x <= row; x++) {
+    for (let x = 0; x < row; x++) {
       let dynamicClass = `.disc-${x}-${col}`;
       tl.from(dynamicClass, {
         yPercent: -200,
