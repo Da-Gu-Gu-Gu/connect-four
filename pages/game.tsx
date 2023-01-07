@@ -19,7 +19,7 @@ import ResultBox from "../src/components/ResultBox";
 import { useRouter } from "next/router";
 import RandomCol from "../src/utils/RandomCol";
 
-const board = [
+let board = [
   [" ", " ", " ", " ", " ", " ", " "],
   [" ", " ", " ", " ", " ", " ", " "],
   [" ", " ", " ", " ", " ", " ", " "],
@@ -47,8 +47,17 @@ export default function Game() {
     timerAnimation();
   }, []);
 
-  // we need to implement to computer play random and check whose turn it is?
-  // computer drop a dics dynamic time delay
+  //  restart function
+  const Restart = () => {
+    board = [
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+    ];
+  };
 
   const boardConfig = (col: any) => {
     for (let i = 5; i >= 0; i--) {
@@ -124,17 +133,19 @@ export default function Game() {
                   })}{" "}
                 </div>
               </Link>
-              <Link href={"/"}>
-                <div className="cursor-pointer menu-btn flex bg-violet-800 py-2 px-5 rounded-lg text-white">
-                  {["R", "e", "s", "t", "a", "r", "t"].map((x, i) => {
-                    return (
-                      <p key={i} className="menu">
-                        {x}
-                      </p>
-                    );
-                  })}
-                </div>
-              </Link>
+
+              <div
+                onClick={() => Restart()}
+                className="cursor-pointer menu-btn flex bg-violet-800 py-2 px-5 rounded-lg text-white"
+              >
+                {["R", "e", "s", "t", "a", "r", "t"].map((x, i) => {
+                  return (
+                    <p key={i} className="menu">
+                      {x}
+                    </p>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="flex justify-between mt-3 mb-5 lg:hidden ">

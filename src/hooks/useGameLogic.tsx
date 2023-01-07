@@ -72,13 +72,11 @@ const useGameLogic = () => {
           board[row][col] === board[row + 3][col + 3]
         ) {
           tempScore += 10;
-          let three=0
-          while(three<=3){
-            completedAnimation(row+three,col+three);
-            three++    
+          let three = 0;
+          while (three <= 3) {
+            completedAnimation(row + three, col + three);
+            three++;
           }
-            
-          
         }
       }
     }
@@ -94,10 +92,10 @@ const useGameLogic = () => {
           board[row][col] === board[row + 3][col - 3]
         ) {
           tempScore += 10;
-          let three=0
-          while(three<=3){
-            completedAnimation(row+three,col+(three*(-1)));
-            three++    
+          let three = 0;
+          while (three <= 3) {
+            completedAnimation(row + three, col + three * -1);
+            three++;
           }
         }
       }
