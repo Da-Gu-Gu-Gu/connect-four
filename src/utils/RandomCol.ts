@@ -8,8 +8,8 @@ const RandomCol = (
     board.filter((inner) => {
       return inner[col] === " ";
     }).length < 1;
-  console.log("it full col", isAlreadFull);
-  console.log("output col", col);
+  // console.log("it full col", isAlreadFull);
+  // console.log("output col", col);
   if (!isAlreadFull) {
     return col;
   }

@@ -84,4 +84,20 @@ export const discAnimation = (row: number, col: number, turn: string) => {
   );
 };
 
+// restart timeline
+const restartTl = gsap.timeline();
+export const restartAnimation = (completeAnimation: any) => {
+  restartTl
+    .to(".star", {
+      opacity: 0,
+      duration: 0.1,
+    })
+    .to(".disc", {
+      yPercent: 100,
+      opacity: 0,
+      // duration: 0.1,
+      onComplete: completeAnimation,
+    });
+};
+
 export default slotAnimation;

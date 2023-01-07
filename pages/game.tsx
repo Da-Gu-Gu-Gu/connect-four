@@ -18,6 +18,7 @@ import Timer from "../src/components/Timer";
 import ResultBox from "../src/components/ResultBox";
 import { useRouter } from "next/router";
 import RandomCol from "../src/utils/RandomCol";
+import { restartAnimation } from "../src/animations/slot";
 
 let board = [
   [" ", " ", " ", " ", " ", " ", " "],
@@ -47,6 +48,17 @@ export default function Game() {
     timerAnimation();
   }, []);
 
+  const goBackHome = () => {
+    board = [
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+      [" ", " ", " ", " ", " ", " ", " "],
+    ];
+  };
+
   //  restart function
   const Restart = () => {
     board = [
@@ -57,6 +69,14 @@ export default function Game() {
       [" ", " ", " ", " ", " ", " ", " "],
       [" ", " ", " ", " ", " ", " ", " "],
     ];
+    setTurn("p1");
+    setGameisFinished(false);
+    setIsComputerTurn(false);
+    setP1Score(0);
+    setP2Score(0);
+    setTimer(30);
+    // ui reupdate
+    restartAnimation(slotAnimation());
   };
 
   const boardConfig = (col: any) => {
@@ -72,7 +92,7 @@ export default function Game() {
         }, 1000);
 
         setTurn(turnCheck);
-        console.log(board);
+        // console.log(board);
         break;
       }
     }
@@ -94,7 +114,7 @@ export default function Game() {
               board.filter((inner) => {
                 return inner[i] === " ";
               }).length < 1;
-            console.log("game is full", isAlreadFull);
+            // console.log("game is full", isAlreadFull);
             if (!isAlreadFull) {
               randomCol = i;
               break;
@@ -102,7 +122,7 @@ export default function Game() {
           }
         }
         // } //need to check col is full or not if full reRandom
-        console.log("cpudropCol", randomCol);
+        // console.log("cpudropCol", randomCol);
         boardConfig(randomCol);
       }, 3000);
     }
@@ -123,7 +143,10 @@ export default function Game() {
             {/* menu bar */}
             <div className="flex justify-between items-center p-3">
               <Link href={"/"}>
-                <div className="cursor-pointer menu-btn flex bg-violet-800 py-2 px-5 rounded-lg text-white">
+                <div
+                  onClick={goBackHome}
+                  className="cursor-pointer menu-btn flex bg-violet-800 py-2 px-5 rounded-lg text-white"
+                >
                   {["H", "o", "m", "e"].map((x) => {
                     return (
                       <p key={x} className="menu">
@@ -186,6 +209,7 @@ export default function Game() {
                       p1Score={p1Score}
                       p2Score={p2Score}
                       isCpu={!!isCpu}
+                      playAgain={Restart}
                     />
                   ) : (
                     <Timer
