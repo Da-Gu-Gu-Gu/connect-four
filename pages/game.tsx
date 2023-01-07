@@ -17,6 +17,7 @@ import useGameLogic from "../src/hooks/useGameLogic";
 import Timer from "../src/components/Timer";
 import ResultBox from "../src/components/ResultBox";
 import { useRouter } from "next/router";
+import RandomCol from "../src/utils/RandomCol";
 
 const board = [
   [" ", " ", " ", " ", " ", " ", " "],
@@ -31,11 +32,10 @@ export default function Game() {
   const [p1Score, setP1Score] = useState(0);
   const [p2Score, setP2Score] = useState(0);
   const [timer, setTimer] = useState(30);
-  const [gameisFinished,setGameisFinished]=useState(false)
-  
+  const [gameisFinished, setGameisFinished] = useState(false);
+
   const router = useRouter();
   const { isCpu } = router.query;
-
 
   const { turn, setTurn, getConnectFourScore } = useGameLogic();
 
@@ -46,7 +46,8 @@ export default function Game() {
     timerAnimation();
   }, []);
 
-// we need to implement to computer play random and check whose turn it is?
+  // we need to implement to computer play random and check whose turn it is?
+  // computer drop a dics dynamic time delay
 
   const boardConfig = (col: number) => {
     for (let i = 5; i >= 0; i--) {
@@ -69,14 +70,21 @@ export default function Game() {
 
   useEffect(() => {
     setTimer(30);
-   setGameisFinished(board.every((inner)=>inner.every(x=>x!==" ")))
-  },[turn]
-  );
+    setGameisFinished(board.every((inner) => inner.every((x) => x !== " ")));
+    // check is turn is not p1 and isCpu is true , run boardConfig
+    if (turn !== "p1" && !!isCpu) {
+      setTimeout(async () => {
+        let randomCol = undefined;
+        // while (!randomCol) {
+        randomCol = RandomCol(0, 6, board);
+        // } //need to check col is full or not if full reRandom
+        console.log("cpudropCol", randomCol);
+        boardConfig(randomCol);
+      }, 2000);
+    }
+  }, [turn]);
 
-  
-  
-
-  console.log("isOver",gameisFinished)
+  // console.log("isOver", gameisFinished);
 
   return (
     <>
@@ -130,6 +138,7 @@ export default function Game() {
                     <div
                       onClick={() => boardConfig(col)}
                       key={col}
+                      // here need to change cursor
                       className="md:w-[70px] opacity-0 hover:opacity-100 cursor-pointer transition-all tab md:h-[70px] p-[2px] pt-[4px] w-[35px] h-[35px] mx-[7px]  md:m-3  bg-black flex justify-center "
                     >
                       <div className="md:w-[70px] tab md:h-[70px]  w-[35px] h-[35px] tab bg-panyaung "></div>
@@ -145,9 +154,21 @@ export default function Game() {
                     });
                   })}
 
-                 {gameisFinished?<ResultBox p1Score={p1Score} p2Score={p2Score} isCpu={!!isCpu} />:
-                    <Timer turn={turn} timer={timer} setTimer={setTimer} setTurn={setTurn}/>
-                }
+                  {gameisFinished ? (
+                    <ResultBox
+                      p1Score={p1Score}
+                      p2Score={p2Score}
+                      isCpu={!!isCpu}
+                    />
+                  ) : (
+                    <Timer
+                      turn={turn}
+                      timer={timer}
+                      setTimer={setTimer}
+                      isCpu={!!isCpu}
+                      setTurn={setTurn}
+                    />
+                  )}
                 </div>
               </div>
             </div>
