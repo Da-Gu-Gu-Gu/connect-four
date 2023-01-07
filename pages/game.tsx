@@ -49,7 +49,7 @@ export default function Game() {
   // we need to implement to computer play random and check whose turn it is?
   // computer drop a dics dynamic time delay
 
-  const boardConfig = (col: number) => {
+  const boardConfig = (col: any) => {
     for (let i = 5; i >= 0; i--) {
       if (board[i][col] === " ") {
         board[i][col] = turn;
@@ -72,11 +72,23 @@ export default function Game() {
     setTimer(30);
     setGameisFinished(board.every((inner) => inner.every((x) => x !== " ")));
     // check is turn is not p1 and isCpu is true , run boardConfig
-    if (turn !== "p1" && !!isCpu) {
+    if (turn !== "p1" && !!isCpu && !gameisFinished) {
       setTimeout(async () => {
-        let randomCol = undefined;
         // while (!randomCol) {
-        randomCol = RandomCol(0, 6, board);
+        let randomCol = RandomCol(0, 6, board);
+        if (randomCol === undefined) {
+          for (let i = 0; i <= 6; i++) {
+            let isAlreadFull =
+              board.filter((inner) => {
+                return inner[i] === " ";
+              }).length < 1;
+            console.log("game is full", isAlreadFull);
+            if (!isAlreadFull) {
+              randomCol = i;
+              break;
+            }
+          }
+        }
         // } //need to check col is full or not if full reRandom
         console.log("cpudropCol", randomCol);
         boardConfig(randomCol);
