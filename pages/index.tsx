@@ -31,7 +31,7 @@ export default function Home() {
         <Link href={"/game?isCpu=true"}>
         <Category background='bg-panyaung' label='PLAYER VS CPU' isCpu={true}/>
         </Link>
-        <Link href={"/game/?opponent=p2"}>
+        <Link href={"/game/"}>
         <Category background='bg-awar' label='PLAYER VS PLAYER'/>
         </Link>
         <Category onClick={ruleHandler} background='bg-white' label='GAME RULES' isRule={true}/>

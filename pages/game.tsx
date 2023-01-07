@@ -31,6 +31,8 @@ export default function Game() {
   const [p1Score, setP1Score] = useState(0);
   const [p2Score, setP2Score] = useState(0);
   const [timer, setTimer] = useState(30);
+  const [gameisFinished,setGameisFinished]=useState(false)
+  
   const router = useRouter();
   const { isCpu } = router.query;
 
@@ -67,7 +69,14 @@ export default function Game() {
 
   useEffect(() => {
     setTimer(30);
-  }, [turn]);
+   setGameisFinished(board.every((inner)=>inner.every(x=>x!==" ")))
+  },[turn]
+  );
+
+  
+  
+
+  console.log("isOver",gameisFinished)
 
   return (
     <>
@@ -136,9 +145,9 @@ export default function Game() {
                     });
                   })}
 
-                  <ResultBox />
-
-                  {/* <Timer turn={turn} timer={timer} setTimer={setTimer} setTurn={setTurn}/> */}
+                 {gameisFinished?<ResultBox p1Score={p1Score} p2Score={p2Score} isCpu={!!isCpu} />:
+                    <Timer turn={turn} timer={timer} setTimer={setTimer} setTurn={setTurn}/>
+                }
                 </div>
               </div>
             </div>
