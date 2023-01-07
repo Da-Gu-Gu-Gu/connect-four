@@ -33,6 +33,7 @@ export default function Game() {
   const [p2Score, setP2Score] = useState(0);
   const [timer, setTimer] = useState(30);
   const [gameisFinished, setGameisFinished] = useState(false);
+  const [isComputerTurn, setIsComputerTurn] = useState(false);
 
   const router = useRouter();
   const { isCpu } = router.query;
@@ -72,7 +73,9 @@ export default function Game() {
     setTimer(30);
     setGameisFinished(board.every((inner) => inner.every((x) => x !== " ")));
     // check is turn is not p1 and isCpu is true , run boardConfig
+    setIsComputerTurn(false);
     if (turn !== "p1" && !!isCpu && !gameisFinished) {
+      setIsComputerTurn(true);
       setTimeout(async () => {
         // while (!randomCol) {
         let randomCol = RandomCol(0, 6, board);
@@ -92,7 +95,7 @@ export default function Game() {
         // } //need to check col is full or not if full reRandom
         console.log("cpudropCol", randomCol);
         boardConfig(randomCol);
-      }, 2000);
+      }, 3000);
     }
   }, [turn]);
 
@@ -148,10 +151,11 @@ export default function Game() {
                 {[0, 1, 2, 3, 4, 5, 6].map((col) => {
                   return (
                     <div
-                      onClick={() => boardConfig(col)}
+                      onClick={() => !isComputerTurn && boardConfig(col)}
                       key={col}
-                      // here need to change cursor
-                      className="md:w-[70px] opacity-0 hover:opacity-100 cursor-pointer transition-all tab md:h-[70px] p-[2px] pt-[4px] w-[35px] h-[35px] mx-[7px]  md:m-3  bg-black flex justify-center "
+                      className={`md:w-[70px] opacity-0 hover:opacity-100 ${
+                        isComputerTurn ? "cursor-not-allowed" : "cursor-pointer"
+                      } transition-all tab md:h-[70px] p-[2px] pt-[4px] w-[35px] h-[35px] mx-[7px]  md:m-3  bg-black flex justify-center `}
                     >
                       <div className="md:w-[70px] tab md:h-[70px]  w-[35px] h-[35px] tab bg-panyaung "></div>
                     </div>
