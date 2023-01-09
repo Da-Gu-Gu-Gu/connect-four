@@ -30,6 +30,15 @@ let board = [
 ];
 
 export default function Game() {
+  const InitalBoard = [
+    [" ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " "],
+  ];
+
   const [p1Score, setP1Score] = useState(0);
   const [p2Score, setP2Score] = useState(0);
   const [timer, setTimer] = useState(30);
@@ -49,36 +58,23 @@ export default function Game() {
   }, []);
 
   const goBackHome = () => {
-    board = [
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-    ];
+    // reset board data
+    board = InitalBoard;
   };
 
-  //  restart function
   const Restart = () => {
-    board = [
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-      [" ", " ", " ", " ", " ", " ", " "],
-    ];
+    board = InitalBoard;
     setTurn("p1");
     setGameisFinished(false);
     setIsComputerTurn(false);
     setP1Score(0);
     setP2Score(0);
     setTimer(30);
-    // ui reupdate
+    // ui reset
     restartAnimation(slotAnimation());
   };
 
+  // Game Play
   const boardConfig = (col: any) => {
     for (let i = 5; i >= 0; i--) {
       if (board[i][col] === " ") {
@@ -92,7 +88,6 @@ export default function Game() {
         }, 1000);
 
         setTurn(turnCheck);
-        // console.log(board);
         break;
       }
     }
@@ -103,32 +98,29 @@ export default function Game() {
     setGameisFinished(board.every((inner) => inner.every((x) => x !== " ")));
     // check is turn is not p1 and isCpu is true , run boardConfig
     setIsComputerTurn(false);
+    // Computer Game Play
     if (turn !== "p1" && !!isCpu && !gameisFinished) {
       setIsComputerTurn(true);
       setTimeout(async () => {
-        // while (!randomCol) {
         let randomCol = RandomCol(0, 6, board);
+        // Check SelectedColumn is Full or not
         if (randomCol === undefined) {
           for (let i = 0; i <= 6; i++) {
             let isAlreadFull =
               board.filter((inner) => {
                 return inner[i] === " ";
               }).length < 1;
-            // console.log("game is full", isAlreadFull);
             if (!isAlreadFull) {
               randomCol = i;
               break;
             }
           }
         }
-        // } //need to check col is full or not if full reRandom
-        // console.log("cpudropCol", randomCol);
         boardConfig(randomCol);
       }, 3000);
     }
+    // End Computer Game Play
   }, [turn]);
-
-  // console.log("isOver", gameisFinished);
 
   return (
     <>
@@ -136,6 +128,7 @@ export default function Game() {
       <main className="bg-kayan  w-screen  min-h-screen  h-max flex justify-center items-center">
         <div className=" flex w-[100%] md:w-[90%] justify-around items-center p-3 ">
           <div className="lg:block hidden">
+            {/* Player Card for larger Screen */}
             <PlayerCard name="Player 1" score={p1Score} />
           </div>
           {/* playground */}
@@ -171,6 +164,7 @@ export default function Game() {
               </div>
             </div>
 
+            {/* PlayerCard for small screen */}
             <div className="flex justify-between mt-3 mb-5 lg:hidden ">
               <PlayerCardMobile score={p1Score} />
               <PlayerCardMobileRight
@@ -179,9 +173,11 @@ export default function Game() {
                 score={p2Score}
               />
             </div>
+            {/* end playercard smaller */}
             {/* game */}
             <div className=" md:w-[700px]  w-[375px] h-max pb-3  mt-5 ">
               <div className="flex justify-center  bg-kayan   ">
+                {/* Tab Indicator */}
                 {[0, 1, 2, 3, 4, 5, 6].map((col) => {
                   return (
                     <div
@@ -191,19 +187,27 @@ export default function Game() {
                         isComputerTurn ? "cursor-not-allowed" : "cursor-pointer"
                       } transition-all tab md:h-[70px] p-[2px] pt-[4px] w-[35px] h-[35px] mx-[7px]  md:m-3  bg-black flex justify-center `}
                     >
-                      <div className={`md:w-[70px] tab md:h-[70px]  w-[35px] h-[35px] tab ${turn==="p1"?"bg-panyaung":"bg-awar"} `}></div>
+                      <div
+                        className={`md:w-[70px] tab md:h-[70px]  w-[35px] h-[35px] tab ${
+                          turn === "p1" ? "bg-panyaung" : "bg-awar"
+                        } `}
+                      ></div>
                     </div>
                   );
                 })}
+                {/* End Tab indicator */}
               </div>
               <div className="md:w-[700px]  bg-black w-[375px] h-max pb-3  rounded-xl">
                 <div className=" bg-white relative md:w-[700px] w-[375px]  justify-center  pb-14 md:pb-20 border-2 border-black rounded-xl flex flex-wrap">
+                  {/* PlayGround */}
                   {board.map((x, i) => {
                     return x.map((y, j) => {
                       return <Slot row={i} col={j} key={j.toString()} />;
                     });
                   })}
+                  {/* End PlayGround */}
 
+                  {/* Result And Timer */}
                   {gameisFinished ? (
                     <ResultBox
                       p1Score={p1Score}
@@ -225,6 +229,7 @@ export default function Game() {
             </div>
           </div>
           <div className="lg:block hidden">
+            {/* Player Card for larger Screen */}
             <PlayerCard
               name={!!isCpu ? "Computer" : "Player 2"}
               score={p2Score}

@@ -1,15 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { completedAnimation } from "../animations";
 
-// const board = [
-//   [" ", " ", " ", " ", " ", " ", " "],
-//   [" ", " ", " ", " ", " ", " ", " "],
-//   [" ", " ", " ", " ", " ", " ", " "],
-//   [" ", " ", " ", " ", " ", " ", " "],
-//   [" ", " ", " ", " ", " ", " ", " "],
-//   [" ", " ", " ", " ", " ", " ", " "],
-// ];
-
 const useGameLogic = () => {
   // Constants for the number of rows and columns
   const ROWS = 6;
@@ -37,7 +28,7 @@ const useGameLogic = () => {
             completedAnimation(row, i);
           }
 
-          // break; // if break , this will not count completed score anymore so this is optional
+          // break; // if break , this will not plus 10 anymore if more than 4 dics connected.
         }
       }
     }
@@ -105,7 +96,6 @@ const useGameLogic = () => {
   };
 
   return {
-    // board,
     turn,
     setTurn,
     getConnectFourScore,

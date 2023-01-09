@@ -7,7 +7,7 @@ interface CategoryPops {
   label: string;
   isRule?: boolean;
   isCpu?: boolean;
-  onClick?:()=>void
+  onClick?: () => void;
 }
 
 const Category = ({
@@ -15,28 +15,29 @@ const Category = ({
   label,
   isRule = false,
   isCpu = false,
-  onClick=()=>{}
+  onClick = () => {},
 }: CategoryPops) => {
   return (
-   
-      <div onClick={onClick} className="category  bg-black h-[65px] cursor-pointer my-5 rounded-xl relative" >
-        <div
-          className={`${background} w-full overflow-hidden flex px-3 justify-between items-center border-4 border-black h-[65px] rounded-xl absolute bottom-2`}
-        >
-          <h1 className="font-bold category-label">{label} </h1>
-          {!isRule && (
-            <div className="flex category-emoji">
-              <AiOutlineSmile size={35} className="-mr-3" />
-              {isCpu ? (
-                <RiGhostSmileLine size={35} />
-              ) : (
-                <AiOutlineSmile size={35} />
-              )}
-            </div>
-          )}
-        </div>
+    <div
+      onClick={onClick}
+      className="category  bg-black h-[65px] cursor-pointer my-5 rounded-xl relative"
+    >
+      <div
+        className={`${background} w-full overflow-hidden flex px-3 justify-between items-center border-4 border-black h-[65px] rounded-xl absolute bottom-2`}
+      >
+        <h1 className="font-bold category-label">{label} </h1>
+        {!isRule && (
+          <div className="flex category-emoji">
+            <AiOutlineSmile size={35} className="-mr-3" />
+            {isCpu ? (
+              <RiGhostSmileLine size={35} />
+            ) : (
+              <AiOutlineSmile size={35} />
+            )}
+          </div>
+        )}
       </div>
-   
+    </div>
   );
 };
 
