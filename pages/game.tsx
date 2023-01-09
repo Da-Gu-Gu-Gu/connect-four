@@ -191,7 +191,7 @@ export default function Game() {
                         isComputerTurn ? "cursor-not-allowed" : "cursor-pointer"
                       } transition-all tab md:h-[70px] p-[2px] pt-[4px] w-[35px] h-[35px] mx-[7px]  md:m-3  bg-black flex justify-center `}
                     >
-                      <div className="md:w-[70px] tab md:h-[70px]  w-[35px] h-[35px] tab bg-panyaung "></div>
+                      <div className={`md:w-[70px] tab md:h-[70px]  w-[35px] h-[35px] tab ${turn==="p1"?"bg-panyaung":"bg-awar"} `}></div>
                     </div>
                   );
                 })}
